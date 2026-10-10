@@ -73,6 +73,8 @@ nav.sommaire{scroll-margin-top:12px}
 .galerie::after{content:"";flex-grow:999999}
 /* ⚠ une photo seule au bout d'un rang ne grandit pas sans fin */
 .galerie figure{margin:0;flex:var(--r) 1 calc(var(--r) * var(--h));min-width:0;max-width:min(100%,calc(var(--r) * var(--h) * 2.2))}
+/* 62e — une photo très étroite (une statue debout) ne descend pas sous 120 px : sa légende s'écrivait un mot par ligne. */
+.galerie figure:has(figcaption){min-width:min(100%,120px)}
 .galerie button{all:unset;display:block;width:100%;cursor:zoom-in;border-radius:3px;overflow:hidden;
   background:var(--papier-2);box-shadow:var(--ombre)}
 .galerie button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
