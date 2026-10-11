@@ -33,29 +33,58 @@ a{color:var(--accent)}
 .page{max-width:1180px;margin:0 auto;padding:0 16px}
 .colonne{max-width:680px;margin:0 auto}
 
-/* L'EN-TÊTE — tel qu'il était : « Dov Levy-Neumand 1933-2014 » */
-header.tete{text-align:center;padding:72px 16px 40px}
+/* ── LE HÉROS (63e) — Dov : « UN SEUL HÉROS, PAS DEUX ». ──────────────────────
+   Un écran : son nom en haut, le pêle-mêle des photos dessous, et sur l'une
+   d'elles le bouton de lecture du montage. Juste en dessous : les chapitres. */
+.heros{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;
+  padding:max(22px,env(safe-area-inset-top)) 16px 0;overflow:hidden}
+header.tete{text-align:center;flex:none}
 .insecable{white-space:nowrap}
-.tete h1{font-family:var(--titre);font-weight:500;font-size:clamp(38px,10.5vw,86px);line-height:1.02;margin:0;letter-spacing:.005em}
-.tete .dates{font-family:var(--titre);font-size:clamp(24px,4.5vw,34px);color:var(--doux);margin:.25em 0 0;letter-spacing:.08em}
-.tete .nom-he{font-family:var(--hebreu);font-size:clamp(26px,5vw,38px);margin:.6em 0 0}
-.tete .ligne{margin:1.4em auto 0;max-width:30em;color:var(--doux)}
-.tete .ligne p{margin:.15em 0;font-size:clamp(19px,3.4vw,23px)}
+.tete h1{font-family:var(--titre);font-weight:500;font-size:clamp(36px,10vw,80px);line-height:1.02;margin:0;letter-spacing:.005em}
+.tete .dates{font-family:var(--titre);font-size:clamp(20px,4.2vw,30px);color:var(--doux);margin:.15em 0 0;letter-spacing:.08em}
+.tete .nom-he{font-family:var(--hebreu);font-size:clamp(20px,4.4vw,30px);margin:.25em 0 0}
+.tete .ligne{margin:.5em auto 0;max-width:32em;color:var(--doux)}
+.tete .ligne p{margin:0;font-size:clamp(16px,3.6vw,21px);line-height:1.4}
 .tete .ligne p:lang(fr){font-style:italic}
-.fleuron{display:block;width:72px;height:1px;background:var(--trait);margin:40px auto;border:0}
+.tete .ligne p:empty,.tete p:empty{display:none}
+/* Le pêle-mêle : des tirages posés de travers, jamais recadrés, qui se
+   chevauchent un peu. Leur place est calculée sur la taille de l'écran. */
+.pelemele{position:relative;flex:1 1 auto;min-height:300px;margin:10px -6px 0}
+.tirage{all:unset;position:absolute;box-sizing:border-box;padding:var(--bord,4px);background:#fffdf8;cursor:zoom-in;
+  box-shadow:0 1px 2px rgba(50,30,10,.18),0 8px 22px rgba(50,30,10,.16);border-radius:2px;
+  opacity:0;transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.tirage.vu{opacity:1}
+.tirage img{display:block;width:100%;height:100%;object-fit:cover;background:var(--papier-2)}
+.tirage:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.tirage.lecture{cursor:pointer;z-index:5}
+.tirage .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.tirage .rond{width:68px;height:68px;border-radius:50%;background:rgba(20,16,12,.58);border:2px solid rgba(255,253,248,.92);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,.35);transition:transform .2s ease,background .2s ease}
+.tirage .rond svg{width:26px;height:26px;margin-left:5px;fill:#fffdf8}
+.tirage .mot{font-size:15px;line-height:1.2;color:#fffdf8;background:rgba(20,16,12,.58);padding:5px 11px;border-radius:999px;white-space:nowrap}
+.tirage.lecture:hover .rond,.tirage.lecture:focus-visible .rond{transform:scale(1.07);background:rgba(122,59,46,.85)}
+.vers-sommaire{flex:none;display:block;text-align:center;padding:12px 0 calc(14px + env(safe-area-inset-bottom));color:var(--doux);
+  text-decoration:none;font-size:17px;min-height:44px}
+.vers-sommaire:hover,.vers-sommaire:focus-visible{color:var(--accent)}
+@media (min-width:700px){.heros{padding-top:34px}.pelemele{margin:18px 0 0}.tirage{--bord:6px}.tirage .rond{width:84px;height:84px}.tirage .rond svg{width:32px;height:32px}.tirage .mot{font-size:16px}}
+@media (prefers-reduced-motion:reduce){.tirage{transition:none}}
+.fleuron{display:block;width:72px;height:1px;background:var(--trait);margin:28px auto;border:0}
 
-/* LE SOMMAIRE — une liste, rien de plus */
-nav.sommaire{margin:8px auto 24px;max-width:760px}
-nav.sommaire h2{font-family:var(--titre);font-weight:500;font-size:26px;text-align:center;margin:0 0 14px;color:var(--doux)}
-nav.sommaire ol{list-style:none;margin:0;padding:0;columns:2 230px;column-gap:40px}
-nav.sommaire li{break-inside:avoid;padding:6px 0;border-bottom:1px solid var(--trait)}
-nav.sommaire a{display:block;color:var(--encre);text-decoration:none;font-size:18px;min-height:32px}
+/* LE SOMMAIRE — 63e : il se voit d'un coup d'œil, même sur un téléphone.
+   Deux colonnes au téléphone, trois sur un écran large ; une ligne par chapitre. */
+nav.sommaire{margin:0 auto;max-width:900px;padding:22px 0 0}
+nav.sommaire h2{font-family:var(--titre);font-weight:500;font-size:24px;text-align:center;margin:0 0 8px;color:var(--doux)}
+nav.sommaire ol{list-style:none;margin:0;padding:0;columns:2;column-gap:14px}
+@media (min-width:700px){nav.sommaire ol{columns:3;column-gap:32px}}
+nav.sommaire li{break-inside:avoid;border-bottom:1px solid var(--trait)}
+nav.sommaire a{display:flex;align-items:center;gap:6px;min-height:44px;padding:3px 0;color:var(--encre);text-decoration:none;font-size:15.5px;line-height:1.22}
+@media (min-width:700px){nav.sommaire a{font-size:17px}}
 nav.sommaire a:hover,nav.sommaire a:focus-visible{color:var(--accent)}
-nav.sommaire .n{display:inline-block;min-width:2em;color:var(--doux);font-variant-numeric:oldstyle-nums}
+nav.sommaire .n{flex:none;min-width:1.5em;color:var(--doux);font-size:13px;font-variant-numeric:tabular-nums}
 
 /* UN CHAPITRE */
 section.chapitre{padding:28px 0 12px;scroll-margin-top:60px}
-nav.sommaire{scroll-margin-top:12px}
+nav.sommaire{scroll-margin-top:0}
 .chapitre header{text-align:center;margin:0 auto 26px}
 .chapitre .num{font-family:var(--titre);color:var(--doux);font-size:18px;letter-spacing:.2em;text-transform:uppercase}
 .chapitre h2{font-family:var(--titre);font-weight:500;font-size:clamp(34px,6vw,52px);line-height:1.1;margin:.1em 0 0}
@@ -88,11 +117,13 @@ nav.sommaire{scroll-margin-top:12px}
 .groupe .galerie{margin-bottom:0}
 .groupe .legende-groupe{font-size:15.5px;line-height:1.4;color:var(--doux);margin:8px 2px 0;overflow-wrap:anywhere}
 
-/* ── LE MONTAGE D'OUVERTURE (62e) ─────────────────────────────────────────
+/* ── LE MONTAGE (62e) — 63e : il ne s'ouvre plus de lui-même. Il attend
+   derrière le bouton de lecture du pêle-mêle, et s'ouvre PAR-DESSUS la page,
+   en plein écran ; on le ferme, on retrouve le pêle-mêle.
    Deux couches d'image qui se relaient en fondu ; un mouvement lent sur la
    photo ; derrière, la même photo floutée pour remplir l'écran sans rien
    recadrer. Rien que du CSS composité : ni bibliothèque, ni vidéo. */
-.montage{position:relative;height:100vh;height:100svh;min-height:420px;overflow:hidden;background:#1d1915;color:#f6f1e8}
+.montage{position:fixed;inset:0;z-index:30;overflow:hidden;background:#1d1915;color:#f6f1e8}
 .montage[hidden]{display:none}
 .montage .couche{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease}
 .montage .couche.active{opacity:1}
@@ -101,22 +132,21 @@ nav.sommaire{scroll-margin-top:12px}
 .montage .couche.active img{animation:lent 9s ease-out forwards}
 @keyframes lent{from{transform:scale(1)}to{transform:scale(1.07)}}
 .montage .voile{position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(to top,rgba(20,16,12,.82),rgba(20,16,12,0));pointer-events:none}
-.montage .nom{position:absolute;left:0;right:0;bottom:calc(150px + env(safe-area-inset-bottom));text-align:center;padding:0 16px;margin:0;
+.montage .nom{position:absolute;left:0;right:0;bottom:calc(96px + env(safe-area-inset-bottom));text-align:center;padding:0 16px;margin:0;
   font-family:var(--titre);font-weight:500;font-size:clamp(34px,8.5vw,72px);line-height:1.05;text-shadow:0 2px 18px rgba(0,0,0,.5)}
 .montage .nom .an{display:block;font-size:.5em;letter-spacing:.1em;opacity:.85;margin-top:.15em}
-.montage .passe{position:absolute;left:0;right:0;bottom:calc(104px + env(safe-area-inset-bottom));text-align:center;margin:0 auto;padding:0 20px;max-width:760px;
+.montage .passe{position:absolute;left:0;right:0;bottom:calc(40px + env(safe-area-inset-bottom));text-align:center;margin:0 auto;padding:0 20px;max-width:760px;
   font-size:clamp(17px,4.2vw,22px);line-height:1.35;font-style:italic;min-height:1.4em;opacity:0;transition:opacity .9s ease;text-shadow:0 1px 10px rgba(0,0,0,.6)}
 .montage .passe.vue{opacity:.95}
-.montage .commandes{position:absolute;left:0;right:0;bottom:calc(28px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:12px;padding:0 16px;flex-wrap:wrap}
-.montage .commandes button{font:inherit;font-size:17px;color:#f6f1e8;background:rgba(30,24,18,.55);border:1px solid rgba(246,241,232,.45);
-  border-radius:999px;padding:12px 20px;min-height:48px;cursor:pointer}
-.montage .commandes button:focus-visible{outline:3px solid #f6f1e8;outline-offset:2px}
+.montage .fermer-montage{position:absolute;top:calc(12px + env(safe-area-inset-top));left:12px;z-index:2;font:inherit;font-size:16px;color:#f6f1e8;
+  background:rgba(30,24,18,.6);border:1px solid rgba(246,241,232,.45);border-radius:999px;padding:10px 16px;min-height:48px;cursor:pointer}
+.montage .fermer-montage:focus-visible{outline:3px solid #f6f1e8;outline-offset:2px}
 .montage .musique{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:2;font:inherit;font-size:16px;color:#f6f1e8;
   background:rgba(30,24,18,.6);border:1px solid rgba(246,241,232,.45);border-radius:999px;padding:10px 16px;min-height:48px;cursor:pointer}
 .montage .musique:focus-visible{outline:3px solid #f6f1e8;outline-offset:2px}
 .montage .musique[aria-pressed=true]{background:rgba(246,241,232,.94);color:var(--encre)}
 /* Un téléphone tenu droit : la photo en haut, les mots en dessous, jamais dessus. */
-@media (max-aspect-ratio:4/5){.montage{--bas:230px}.montage .couche img{top:max(12px,env(safe-area-inset-top))}}
+@media (max-aspect-ratio:4/5){.montage{--bas:190px}.montage .couche img{top:calc(72px + env(safe-area-inset-top))}}
 @media (prefers-reduced-motion:reduce){.montage .couche.active img{animation:none}}
 
 /* ── LA BARRE DES CHAPITRES (62e) — toujours là une fois dans l'album ────── */
@@ -170,16 +200,31 @@ footer.pied{text-align:center;padding:30px 16px 80px;color:var(--doux)}
 </style>
 </head>
 <body>
-<!-- LE MONTAGE : il ne s'affiche que si Edith a coché au moins une photo
-     « dans le montage » ; sans photo, la page s'ouvre comme avant. -->
-<section class="montage" id="montage" aria-roledescription="diaporama" aria-label="Montage de photos" hidden>
+<!-- LE HÉROS (63e) : son nom, puis le pêle-mêle des photos du premier
+     chapitre. L'en-tête est un réglage d'Edith (`album_entete`) : ce qui est
+     écrit ici n'est que ce qui s'affiche si le réglage ne se lit pas. -->
+<section class="heros" id="debut" aria-label="Dov Levy-Neumand">
+  <header class="tete">
+    <h1 id="t-nom">Dov <span class="insecable">Levy-Neumand</span></h1>
+    <p class="dates" id="t-dates">1933-2014</p>
+    <p class="nom-he" lang="he" dir="rtl" id="t-nom-he">דוב לוי-נוימנד</p>
+    <div class="ligne">
+      <p lang="he" dir="rtl" id="t-ligne-he">אבא, סבא, בעל, חבר שלנו</p>
+      <p lang="fr" id="t-ligne-fr">Notre père, grand père, mari, ami...</p>
+    </div>
+  </header>
+  <div class="pelemele" id="pelemele" role="group" aria-label="Sa vie en quelques images"></div>
+  <a class="vers-sommaire" id="vers-sommaire" href="#sommaire" hidden>Les chapitres ↓</a>
+</section>
+<!-- LE MONTAGE : derrière le bouton de lecture ; il ne s'ouvre qu'au toucher. -->
+<section class="montage" id="montage" role="dialog" aria-modal="true" aria-roledescription="diaporama" aria-label="Montage de photos" hidden>
   <div class="couche"><div class="flou"></div><img alt="" decoding="async"></div>
   <div class="couche"><div class="flou"></div><img alt="" decoding="async"></div>
   <div class="voile"></div>
-  <p class="nom" aria-hidden="true">Dov <span class="insecable">Levy-Neumand</span><span class="an">1933-2014</span></p>
+  <p class="nom" id="m-nom" aria-hidden="true">Dov <span class="insecable">Levy-Neumand</span><span class="an">1933-2014</span></p>
   <p class="passe" id="passe" dir="auto" aria-hidden="true"></p>
+  <button type="button" class="fermer-montage" id="fermer-montage">✕ Fermer</button>
   <button type="button" class="musique" id="musique" aria-pressed="false">♪ Mettre la musique</button>
-  <div class="commandes"><button type="button" id="aux-chapitres">Voir les chapitres ↓</button></div>
 </section>
 <div class="barre" id="barre" role="navigation" aria-label="Changer de chapitre">
   <button type="button" class="fleche" id="b-prec" aria-label="Chapitre précédent">‹</button>
@@ -191,17 +236,8 @@ footer.pied{text-align:center;padding:30px 16px 80px;color:var(--doux)}
   <div class="tete-liste"><strong>Les chapitres</strong><button type="button" id="liste-fermer">Fermer ✕</button></div>
   <ol id="liste-ol"></ol>
 </div>
-<header class="tete" id="debut">
-  <h1>Dov <span class="insecable">Levy-Neumand</span></h1>
-  <p class="dates">1933-2014</p>
-  <p class="nom-he" lang="he" dir="rtl">דוב לוי-נוימנד</p>
-  <div class="ligne">
-    <p lang="he" dir="rtl">אבא, סבא, בעל, חבר שלנו</p>
-    <p lang="fr">Notre père, grand père, mari, ami...</p>
-  </div>
-</header>
 <main id="album" class="page"><p class="etat" id="etat">&nbsp;</p></main>
-<footer class="pied" id="pied" hidden><a href="#" onclick="window.scrollTo(0,0);return false">Revenir au début</a></footer>
+<footer class="pied" id="pied" hidden><a href="#debut">Revenir au début</a></footer>
 
 <div class="visionneuse" id="vis" role="dialog" aria-modal="true" aria-label="Photo agrandie" hidden>
   <button class="fermer" id="vis-fermer" type="button">Fermer ✕</button>
@@ -286,6 +322,10 @@ function rendreChapitre(ch, photos, numero){
   return h;
 }
 
+/* ⛔ 63e — LE PREMIER CHAPITRE EST LE HÉROS. Ses photos font le pêle-mêle qui
+   accueille ; il est le chapitre 1 du sommaire, et y mène en haut de la page.
+   Les suivants s'écrivent sous le sommaire, comme avant. */
+var heros = null, photosHeros = [];
 function rendreAlbum(chapitres, photos){
   toutes = [];
   var parChap = {};
@@ -293,24 +333,120 @@ function rendreAlbum(chapitres, photos){
   Object.keys(parChap).forEach(function(k){ parChap[k].sort(function(a,b){return a.rang-b.rang}); });
   chapitres.sort(function(a,b){return a.rang-b.rang});
   var html = "", n = 0, sommaire = [];
-  chapitres.forEach(function(ch){
+  chapitres.forEach(function(ch, k){
     var ph = parChap[ch.id] || [];
     var aTitre = (ch.titre||"").trim() || (ch.titre_hebreu||"").trim();
     var vide = !ph.length && !(ch.recit||"").trim() && !(ch.texte||"").trim();
     if (vide) return;
+    if (!heros) {
+      /* Le héros : ses photos vont au pêle-mêle, son texte (s'il en a un) sous le sommaire. */
+      heros = ch; photosHeros = ph;
+      ph.forEach(function(p){ p.__i = toutes.length; toutes.push(p); });
+      document.getElementById("debut").setAttribute("data-chapitre", ch.id);
+      n++; sommaire.push({id: ch.id, n: n, titre: aTitre ? ((ch.titre||"").trim()||ch.titre_hebreu) : "Les photos", heros: true});
+      if ((ch.recit||"").trim() || (ch.texte||"").trim())
+        html += '<section class="chapitre">' + paragraphes(ch.recit, "recit") + paragraphes(ch.texte, "texte") + "</section>";
+      return;
+    }
     if (aTitre) { n++; sommaire.push({id:ch.id, n:n, titre:(ch.titre||"").trim()||ch.titre_hebreu}); }
-    html += '<section class="chapitre" id="c-'+ch.id+'">'+rendreChapitre(ch, ph, aTitre ? "" : "")+"</section>";
-    /* Le sommaire se place après l'ouverture (le premier chapitre sans titre). */
-    if (!aTitre && html.indexOf("SOMMAIRE")<0) html += "<!--SOMMAIRE-->";
+    html += '<section class="chapitre" id="c-'+ch.id+'">'+rendreChapitre(ch, ph, "")+"</section>";
   });
-  var som = '<nav class="sommaire" aria-label="Les chapitres"><h2>Les chapitres</h2><ol>'
-    + sommaire.map(function(s){return '<li><a href="#c-'+s.id+'"><span class="n">'+s.n+'</span><span dir="auto">'+esc(s.titre)+"</span></a></li>"}).join("")
+  var lien = function(s){ return s.heros ? "#debut" : "#c-"+s.id; };
+  var som = '<nav class="sommaire" id="sommaire" aria-label="Les chapitres"><h2>Les chapitres</h2><ol>'
+    + sommaire.map(function(s){return '<li><a href="'+lien(s)+'"'+(s.heros?' data-heros="1"':"")+'><span class="n">'+s.n+'</span><span dir="auto">'+esc(s.titre)+"</span></a></li>"}).join("")
     + '</ol></nav><hr class="fleuron">';
-  if (html.indexOf("<!--SOMMAIRE-->")>=0) html = html.replace("<!--SOMMAIRE-->", som);
-  else html = som + html;
-  album.innerHTML = html;
+  album.innerHTML = som + html;
   document.getElementById("pied").hidden = false;
+  document.getElementById("vers-sommaire").hidden = false;
+  poserPeleMele();
   preparerBarre(sommaire);
+}
+
+/* ── LE PÊLE-MÊLE (63e) ──────────────────────────────────────────────────────
+   Des tirages posés de travers sur la page, entiers (jamais recadrés), qui se
+   chevauchent un peu. Celui qui porte le bouton de lecture est le plus grand,
+   au milieu, au-dessus des autres. Les places se calculent sur la taille de
+   l'écran : on cherche la grille dont les cases ressemblent le plus à une
+   photo, on retire les cases que couvre le grand tirage, et l'on pose un
+   tirage par case, un peu décalé, un peu tourné — toujours de la même façon,
+   pour que la page ne change pas d'une visite à l'autre. */
+var peleMele = document.getElementById("pelemele"), photoLecture = null;
+var PENTES = [-5, 3.5, -2, 4.5, -3.5, 2, -4.5, 1.5, 3, -1.5];
+function choisirPhotoLecture(){
+  var vivantes = photosHeros;
+  var voulue = reglage && reglage.photo_de_lecture;
+  return vivantes.filter(function(p){ return p.id === voulue; })[0]
+    || vivantes.filter(function(p){ return p.au_montage; })[0] || vivantes[0] || null;
+}
+function poserPeleMele(){
+  if (!photosHeros.length) { peleMele.hidden = true; return; }
+  photoLecture = choisirPhotoLecture();
+  var W = peleMele.clientWidth, H = peleMele.clientHeight;
+  if (W < 50 || H < 50) return;
+  var etroit = W < 700;
+  var autres = photosHeros.filter(function(p){ return p !== photoLecture; });
+  /* Le grand tirage : au milieu, à sa proportion. */
+  var pl = photoLecture, ar = (pl.largeur||4)/(pl.hauteur||3);
+  var bw = Math.min(W * (etroit ? 0.66 : 0.40), H * (etroit ? 0.50 : 0.62) * ar), bh = bw / ar;
+  var big = {x: W/2 - bw/2, y: H*0.47 - bh/2, w: bw, h: bh};
+  /* La grille : assez de cases libres, des cases au plus près d'une photo 4:3. */
+  var best = null;
+  for (var c = 3; c <= 9; c++) for (var r = 3; r <= 9; r++) {
+    var cw = W/c, chh = H/r, libres = [];
+    for (var y = 0; y < r; y++) for (var x = 0; x < c; x++) {
+      var cx = (x+.5)*cw, cy = (y+.5)*chh;
+      if (cx > big.x + bw*.12 && cx < big.x + bw*.88 && cy > big.y + bh*.12 && cy < big.y + bh*.88) continue;
+      libres.push({cx: cx, cy: cy});
+    }
+    if (libres.length < autres.length) continue;
+    var score = Math.abs(Math.log((cw/chh)/1.25)) + 0.12 * (libres.length - autres.length);
+    if (!best || score < best.score) best = {score: score, cw: cw, ch: chh, libres: libres};
+  }
+  if (!best) return;
+  /* Trop de cases ? on en retire, réparties sur toute la grille. */
+  var cases = best.libres, prises = [];
+  for (var k = 0; k < autres.length; k++) prises.push(cases[Math.floor(k * cases.length / autres.length)]);
+  var html = "";
+  autres.forEach(function(p, k){
+    var a = (p.largeur||4)/(p.hauteur||3), boite = Math.min(best.cw, best.ch * a) * (etroit ? 1.18 : 1.08);
+    var w = Math.min(boite, best.cw * 1.25), h = w / a;
+    if (h > best.ch * 1.3) { h = best.ch * 1.3; w = h * a; }
+    var dx = ((k * 37) % 11 - 5) / 5 * best.cw * 0.10, dy = ((k * 53) % 9 - 4) / 4 * best.ch * 0.08;
+    var x = Math.max(2, Math.min(W - w - 2, prises[k].cx - w/2 + dx)), y = Math.max(2, Math.min(H - h - 2, prises[k].cy - h/2 + dy));
+    html += tirage(p, x, y, w, h, PENTES[k % PENTES.length], k);
+  });
+  html += tirage(pl, big.x, big.y, big.w, big.h, -1.2, autres.length, true);
+  peleMele.innerHTML = html;
+}
+function tirage(p, x, y, w, h, pente, ordre, lecture){
+  var leg = (p.legende||"").trim();
+  var nom = lecture ? "Lancer le montage (lecture)" : "Agrandir la photo" + (leg ? " : " + leg : "");
+  var taille = Math.round(lecture ? w * 2 : w * 2);
+  return '<button type="button" class="tirage' + (lecture ? " lecture" : "") + '"'
+    + (lecture ? ' id="lecture"' : ' data-i="' + p.__i + '"')
+    + ' aria-label="' + esc(nom) + '" style="left:' + x.toFixed(1) + "px;top:" + y.toFixed(1) + "px;width:" + w.toFixed(1) + "px;height:" + h.toFixed(1)
+    + "px;transform:rotate(" + pente + "deg);transition-delay:" + (ordre * 45) + 'ms">'
+    + '<img src="' + PHOTOS + esc(p.vignette) + '"' + (taille > 640 ? ' srcset="' + PHOTOS + esc(p.vignette) + " 640w, " + PHOTOS + esc(p.fichier) + ' 1600w" sizes="' + Math.round(w) + 'px"' : "")
+    + ' alt="' + esc(leg) + '" decoding="async" onload="this.parentNode.classList.add(\'vu\')" onerror="this.parentNode.classList.add(\'vu\')">'
+    + (lecture ? '<span class="play" aria-hidden="true"><span class="rond"><svg viewBox="0 0 24 24"><path d="M6 3.5v17l14.5-8.5z"/></svg></span><span class="mot">Regarder le montage</span></span>' : "")
+    + "</button>";
+}
+peleMele.addEventListener("click", function(e){
+  var b = e.target.closest(".tirage"); if (!b) return;
+  if (b.id === "lecture") ouvrirMontage(); else ouvrir(+b.dataset.i);
+});
+var attenteTaille = null, largeurPosee = 0, hauteurPosee = 0;
+window.addEventListener("resize", function(){
+  clearTimeout(attenteTaille);
+  attenteTaille = setTimeout(function(){
+    /* La barre d'adresse d'un téléphone qui se replie change la hauteur de
+       quelques pixels : on ne redessine que pour un vrai changement. */
+    if (Math.abs(peleMele.clientWidth - largeurPosee) > 8 || Math.abs(peleMele.clientHeight - hauteurPosee) > 60) { poserPeleMele(); marquerVus(); }
+  }, 150);
+});
+function marquerVus(){
+  largeurPosee = peleMele.clientWidth; hauteurPosee = peleMele.clientHeight;
+  [].forEach.call(peleMele.querySelectorAll("img"), function(im){ if (im.complete) im.parentNode.classList.add("vu"); });
 }
 
 /* ── ALLER QUELQUE PART : TOUJOURS D'UN COUP ─────────────────────────────────
@@ -322,9 +458,12 @@ function aller(id){
   try { history.replaceState(null, "", "#"+id); } catch(e) {}
 }
 document.addEventListener("click", function(e){
-  var a = e.target.closest && e.target.closest('a[href^="#c-"]');
-  if (!a) return;
-  e.preventDefault(); fermerListe(); aller(a.getAttribute("href").slice(1));
+  var a = e.target.closest && e.target.closest('a[href^="#c-"],a[href="#debut"],a[href="#sommaire"]');
+  if (!a || a.id === "vers-debut") return;
+  e.preventDefault(); fermerListe();
+  var id = a.getAttribute("href").slice(1);
+  if (id === "debut") { window.scrollTo(0, 0); try { history.replaceState(null, "", location.pathname + location.search); } catch(e) {} }
+  else aller(id);
 });
 
 /* ── LA BARRE DES CHAPITRES ─────────────────────────────────────────────────
@@ -335,7 +474,7 @@ var barre = document.getElementById("barre"), chaps = [], courantChap = -1;
 var liste = document.getElementById("liste"), listeFond = document.getElementById("liste-fond"), listeOl = document.getElementById("liste-ol");
 var bListe = document.getElementById("b-liste");
 function preparerBarre(sommaire){
-  chaps = sommaire.map(function(s){ return {id: "c-"+s.id, n: s.n, titre: s.titre, el: document.getElementById("c-"+s.id)}; });
+  chaps = sommaire.map(function(s){ var id = s.heros ? "debut" : "c-"+s.id; return {id: id, n: s.n, titre: s.titre, el: document.getElementById(id)}; });
   listeOl.innerHTML = chaps.map(function(c){
     return '<li><a href="#'+c.id+'"><span class="n">'+c.n+'</span><span dir="auto">'+esc(c.titre)+"</span></a></li>";
   }).join("") + '<li><a href="#debut" class="debut" id="vers-debut"><span class="n">↑</span><span>Revenir au début</span></a></li>';
@@ -346,7 +485,9 @@ function suivreLaLecture(){
   if (!chaps.length) return;
   var i = -1;
   for (var k = 0; k < chaps.length; k++) { if (chaps[k].el && chaps[k].el.getBoundingClientRect().top <= 72) i = k; else break; }
-  barre.classList.toggle("montre", i >= 0);
+  /* 63e — le héros est le chapitre 1 : la barre attend qu'on soit entré dans
+     le chapitre 2, c'est-à-dire qu'on ait dépassé le sommaire. */
+  barre.classList.toggle("montre", i >= 1);
   if (i === courantChap) return;
   courantChap = i;
   if (i < 0) return;
@@ -387,25 +528,45 @@ document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !lis
    ou à défaut le titre de son chapitre. */
 var montage = document.getElementById("montage"), couches = montage.querySelectorAll(".couche"),
     passe = document.getElementById("passe");
-var diapos = [], idx = -1, minuteur = null, visible = true, enMarche = false;
+var diapos = [], idx = -1, minuteur = null, ouvertMontage = false, focusAvantMontage = null;
 var DUREE = 6000;
-var LIGNES = [].map.call(document.querySelectorAll("header.tete .ligne p"), function(p){ return p.textContent.trim(); });
 function preparerMontage(chapitres, photos){
   var rangChap = {}, titreChap = {};
   chapitres.forEach(function(c){ rangChap[c.id] = c.rang; titreChap[c.id] = (c.titre||"").trim() || (c.titre_hebreu||"").trim(); });
-  diapos = photos.filter(function(p){ return p.au_montage && rangChap[p.chapitre_id] !== undefined; })
-    .sort(function(a,b){ return (rangChap[a.chapitre_id]-rangChap[b.chapitre_id]) || (a.rang-b.rang); })
-    .map(function(p, k){
-      var mot = k >= 1 && k <= LIGNES.length ? LIGNES[k-1]
-        : (!p.legende_a_relire && (p.legende||"").trim()) || titreChap[p.chapitre_id] || "";
-      return {p: p, mot: mot};
-    });
-  if (!diapos.length) return;
-  montage.hidden = false;
-  new IntersectionObserver(function(es){ visible = es[0].isIntersecting; relancer(); }, {threshold: 0.15}).observe(montage);
+  var LIGNES = [entete.ligne_hebreu, entete.ligne_francais].map(function(l){ return (l||"").trim(); }).filter(Boolean);
+  var choisies = photos.filter(function(p){ return p.au_montage && rangChap[p.chapitre_id] !== undefined; })
+    .sort(function(a,b){ return (rangChap[a.chapitre_id]-rangChap[b.chapitre_id]) || (a.rang-b.rang); });
+  /* Le montage commence par la photo qu'on vient de toucher. */
+  if (photoLecture) {
+    var k0 = choisies.indexOf(photoLecture);
+    choisies = k0 >= 0 ? choisies.slice(k0).concat(choisies.slice(0, k0)) : [photoLecture].concat(choisies);
+  }
+  diapos = choisies.map(function(p, k){
+    var mot = k >= 1 && k <= LIGNES.length ? LIGNES[k-1]
+      : (!p.legende_a_relire && (p.legende||"").trim()) || titreChap[p.chapitre_id] || "";
+    return {p: p, mot: mot};
+  });
   document.addEventListener("visibilitychange", relancer);
+}
+function ouvrirMontage(){
+  if (!diapos.length) return;
+  focusAvantMontage = document.activeElement;
+  montage.hidden = false; ouvertMontage = true;
+  document.body.style.overflow = "hidden";
+  couches[0].classList.remove("active"); couches[1].classList.remove("active");
+  passe.textContent = ""; passe.classList.remove("vue");
+  document.getElementById("fermer-montage").focus();
   montrerDiapo(0);
 }
+function fermerMontage(){
+  if (!ouvertMontage) return;
+  ouvertMontage = false; clearTimeout(minuteur);
+  if (musique.getAttribute("aria-pressed") === "true") allumerMusique(false);
+  montage.hidden = true; document.body.style.overflow = "";
+  if (focusAvantMontage && focusAvantMontage.focus) focusAvantMontage.focus({preventScroll: true});
+}
+document.getElementById("fermer-montage").onclick = fermerMontage;
+document.addEventListener("keydown", function(e){ if (e.key === "Escape" && ouvertMontage) fermerMontage(); });
 function chargerImage(p){
   return new Promise(function(ok){
     var im = new Image(); im.decoding = "async";
@@ -417,6 +578,7 @@ function chargerImage(p){
 function montrerDiapo(k){
   var d = diapos[k]; if (!d) return;
   chargerImage(d.p).then(function(src){
+    if (!ouvertMontage) return;
     idx = k;
     var c = couches[k % 2], autre = couches[(k+1) % 2], img = c.querySelector("img");
     img.src = src;
@@ -427,18 +589,39 @@ function montrerDiapo(k){
     c.classList.remove("active"); void c.offsetWidth; c.classList.add("active"); autre.classList.remove("active");
     passe.classList.remove("vue");
     setTimeout(function(){ passe.textContent = d.mot; if (d.mot) passe.classList.add("vue"); }, 700);
-    enMarche = true; relancer();
+    relancer();
   });
 }
 function relancer(){
   clearTimeout(minuteur);
-  if (!enMarche || !visible || document.hidden || diapos.length < 2) return;
+  if (!ouvertMontage || document.hidden || diapos.length < 2) return;
   minuteur = setTimeout(function(){ montrerDiapo((idx+1) % diapos.length); }, DUREE);
 }
-document.getElementById("aux-chapitres").onclick = function(){
-  var s = document.querySelector("nav.sommaire") || document.getElementById("debut");
-  s.scrollIntoView({block:"start", behavior:"instant"});
-};
+
+/* ── L'EN-TÊTE : CE QU'EDITH A ÉCRIT (63e, O100 ④) ────────────────────────────
+   Le nom, les années, le nom en hébreu et les deux lignes viennent de son
+   réglage `album_entete` ; la photo du bouton de lecture aussi. Si le réglage
+   ne se lit pas, la page garde ce qui est écrit plus haut. */
+var reglage = null;
+var entete = {nom: "Dov Levy-Neumand", dates: "1933-2014", nom_hebreu: "דוב לוי-נוימנד",
+  ligne_hebreu: "אבא, סבא, בעל, חבר שלנו", ligne_francais: "Notre père, grand père, mari, ami..."};
+function nomInsecable(nom){
+  /* « Dov Levy-Neumand » : le nom de famille ne se coupe jamais en deux lignes. */
+  var t = esc(nom.trim()), i = t.indexOf(" ");
+  return i < 0 ? t : t.slice(0, i) + ' <span class="insecable">' + t.slice(i + 1) + "</span>";
+}
+function appliquerEntete(r){
+  reglage = r || null;
+  if (r) ["nom","dates","nom_hebreu","ligne_hebreu","ligne_francais"].forEach(function(k){ if (typeof r[k] === "string") entete[k] = r[k]; });
+  document.getElementById("t-nom").innerHTML = nomInsecable(entete.nom);
+  document.getElementById("t-dates").textContent = entete.dates.trim();
+  document.getElementById("t-nom-he").textContent = entete.nom_hebreu.trim();
+  document.getElementById("t-ligne-he").textContent = entete.ligne_hebreu.trim();
+  document.getElementById("t-ligne-fr").textContent = entete.ligne_francais.trim();
+  document.getElementById("m-nom").innerHTML = nomInsecable(entete.nom) + (entete.dates.trim() ? '<span class="an">' + esc(entete.dates.trim()) + "</span>" : "");
+  document.title = entete.nom.trim() + (entete.dates.trim() ? " " + entete.dates.trim() : "");
+  document.getElementById("debut").setAttribute("aria-label", entete.nom.trim());
+}
 
 /* ── LA MUSIQUE ─────────────────────────────────────────────────────────────
    ⛔ ELLE NE DÉMARRE JAMAIS TOUTE SEULE : rien ne se crée avant le toucher.
@@ -552,15 +735,19 @@ function lire(chemin){
     .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); });
 }
 function charger(){
-  etat.textContent = " ";
+  etat.textContent = " ";
   Promise.all([
     lire("memoire_chapitres?select=id,rang,titre,titre_hebreu,recit,texte&order=rang"),
-    lire("memoire_photos?select=id,chapitre_id,rang,fichier,vignette,largeur,hauteur,legende,legende_a_relire,au_montage&order=rang&limit=5000")
+    lire("memoire_photos?select=id,chapitre_id,rang,fichier,vignette,largeur,hauteur,legende,legende_a_relire,au_montage&order=rang&limit=5000"),
+    /* Le réglage d'Edith : s'il ne se lit pas, la page s'ouvre quand même. */
+    lire("site_settings?key=eq.album_entete&select=value").then(function(r){ return r && r[0] ? r[0].value : null; }, function(){ return null; })
   ]).then(function(r){
+    appliquerEntete(r[2]);
     rendreAlbum(r[0], r[1]);
-    /* Arriver par un lien vers un chapitre : on y va, sans montage devant. */
+    marquerVus();
+    preparerMontage(r[0], r[1]);
+    /* Arriver par un lien vers un chapitre : on y va. */
     if (location.hash && document.getElementById(location.hash.slice(1))) aller(location.hash.slice(1));
-    else preparerMontage(r[0], r[1]);
   })
     .catch(function(){
       etat.innerHTML = "La page n'a pas pu se charger. Vérifiez la connexion, puis réessayez.<br><button type=\"button\">Réessayer</button>";
@@ -577,7 +764,7 @@ if (APERCU) {
     var ch = d.chapitre, ph = (d.photos||[]).filter(function(p){ return !p.masquee; });
     album.innerHTML = '<section class="chapitre">' + rendreChapitre(ch, ph, "") + "</section>";
   });
-  document.querySelector("header.tete").style.display = "none";
+  document.getElementById("debut").style.display = "none";
   if (window.parent !== window) window.parent.postMessage({type:"apercu-memoire-pret"}, "*");
 } else {
   charger();
